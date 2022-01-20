@@ -1,0 +1,29 @@
+:import argparse
+import matplotlib.pyplot as plt
+import os
+import NuRadioReco.modules.io.eventReader
+from scipy import signal
+import numpy as np
+parser = argparse.ArgumentParser(description = 'NuRadioSim file')
+parser.add_argument('nur', type = str, help = 'path to nur')
+args = parser.parse_args()
+eventReader = NuRadioReco.modules.io.eventReader.eventReader()
+eventReader.begin(args.nur)
+plotDir = "./Efields/"
+
+if (not os.path.exists(plotDir)):
+    os.makedirs(plotDir)
+channel_num = 1
+for event in eventReader.run():
+    for station in event.get_stations():
+        for efield in station.get_sim_station().get_electric_fields():
+            eid = efield.get_channel_ids()
+            time = efield.get_times()
+            Efield = efield.get_trace()[channel_num]
+            Efield1 = Efield[1150:1550] # cropping field
+    plt.plot(Efield1)
+    plt.xlabel("time")
+    plt.ylabel("Efield")
+    plt.title('reconstructed Efield ' )
+    plt.savefig(str(plotDir) + "/Efield"  + ".png", bbox_inches = "tight")
+eventReader.end()
