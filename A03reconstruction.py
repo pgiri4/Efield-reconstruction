@@ -36,7 +36,8 @@ plot = 1
 channelBandPassFilter = NuRadioReco.modules.channelBandPassFilter.channelBandPassFilter()
 correlationDirectionFitter = NuRadioReco.modules.correlationDirectionFitter.correlationDirectionFitter()
 channelResampler = NuRadioReco.modules.channelResampler.channelResampler()
-hardwareResponseIncorporator = NuRadioReco.modules.ARIANNA.hardwareResponseIncorporator.hardwareResponseIncorporator()voltageToEfieldConverterPerChannel = NuRadioReco.modules.voltageToEfieldConverterPerChannel.voltageToEfieldConverterPerChannel()
+hardwareResponseIncorporator = NuRadioReco.modules.ARIANNA.hardwareResponseIncorporator.hardwareResponseIncorporator()
+voltageToEfieldConverterPerChannel = NuRadioReco.modules.voltageToEfieldConverterPerChannel.voltageToEfieldConverterPerChannel()
 electricFieldSignalReconstructor = NuRadioReco.modules.electricFieldSignalReconstructor.electricFieldSignalReconstructor()
 efieldTimeDirectionFitter = NuRadioReco.modules.efieldTimeDirectionFitter.efieldTimeDirectionFitter()
 channelTimeWindow = NuRadioReco.modules.channelTimeWindow.channelTimeWindow()
@@ -74,7 +75,7 @@ for evt in eventReader.run():
         correlationDirectionFitter.run(evt, station, det, n_index=1.353, ZenLim=[90 * units.deg, 180 * units.deg],
                                        AziLim=[300 * units.deg, 330 * units.deg],
                                        channel_pairs=((6, 4), (5, 7)))
-                voltageToEfieldConverterPerChannel.run(evt, station, det, pol=0)
+        voltageToEfieldConverterPerChannel.run(evt, station, det, pol=0)
         electricFieldSignalReconstructor.run(evt, station, det)
         if plot:
             fig, ax = plt.subplots(4, 2, sharex=True, sharey=True)
